@@ -6,7 +6,7 @@ import os
 from cachetools import TTLCache
 import models
 from database import engine, db_dependency
-from routes import (Auth, FoodCategory, FoodIngredient)
+from routes import (Auth, FoodCategory, FoodIngredient, FoodModifier)
 from routes.Auth import get_current_user, user_dependency
 
 app = FastAPI()
@@ -20,6 +20,7 @@ models.Base.metadata.create_all(bind=engine)
 app.include_router(Auth.router)
 app.include_router(FoodCategory.router)
 app.include_router(FoodIngredient.router)
+app.include_router(FoodModifier.router)
 
 
 

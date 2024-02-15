@@ -22,8 +22,8 @@ router = APIRouter(
 UPLOAD_FOLDER = "FoodIngredient"
 
 
-def ingredient_by_id(category_id, db):
-    category = db.query(FoodIngredients).filter(FoodIngredients.id == category_id).first()
+def ingredient_by_id(ingredient_id, db):
+    category = db.query(FoodIngredients).filter(FoodIngredients.id == ingredient_id).first()
     if not category:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Ingredient does not exist")
     return category
@@ -67,8 +67,8 @@ async def create_food_ingredient(
 
 
 @router.get("/{ingredient_id}")
-async def get_ingredient_by_id(ingredient: int, db: db_dependency):
-    ingredient = ingredient_by_id(ingredient, db)
+async def get_ingredient_by_id(ingredient_id: int, db: db_dependency):
+    ingredient = ingredient_by_id(ingredient_id, db)
     return ingredient
 
 
@@ -93,7 +93,7 @@ async def update_category(
         if ingredient_image:
             file_handler = FileHandler(upload_folder=UPLOAD_FOLDER)
             saved_filename = file_handler.save_uploaded_file(ingredient_image)
-            ingredient.category_image = saved_filename
+            ingredient.ingredient_image = saved_filename
         if ingredient_description:
             ingredient.category_description = ingredient_description
 
