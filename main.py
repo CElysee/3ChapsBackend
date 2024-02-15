@@ -6,14 +6,21 @@ import os
 from cachetools import TTLCache
 import models
 from database import engine, db_dependency
-from routes import (auth)
-from routes.auth import get_current_user, user_dependency
+from routes import (Auth, FoodCategory, FoodIngredient)
+from routes.Auth import get_current_user, user_dependency
 
 app = FastAPI()
 
 models.Base.metadata.create_all(bind=engine)
+# app.mount("/FoodCategory", StaticFiles(directory="FoodCategory"), name="images")
+# # Your cache instance, replace with your specific cache implementation
+# cache = TTLCache(maxsize=100, ttl=600)  # TTLCache as an example, use your actual cache implementation
 
-app.include_router(auth.router)
+
+app.include_router(Auth.router)
+app.include_router(FoodCategory.router)
+app.include_router(FoodIngredient.router)
+
 
 
 @app.get("/")

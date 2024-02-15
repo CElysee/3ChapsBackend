@@ -6,13 +6,14 @@ from pydantic import BaseModel, EmailStr
 
 class UserCreate(BaseModel):
     email: EmailStr
-    username: EmailStr
+    username: Optional[EmailStr]
     phone_number: str
     first_name: str
     last_name: str
     password: str
     gender: str
     country_id: Optional[int]
+    is_active: Optional[bool] = True
     role: str
 
 
@@ -39,10 +40,9 @@ class UserId(BaseModel):
     id: int
 
 
-class FoodItemCategoriesCreate(BaseModel):
+class FoodItemCategoryCreate(BaseModel):
     category_name: str
     category_image: Text
     category_status: str
     category_description: Text
-    created_at: datetime
-    updated_at: Optional[datetime] = None
+    created_at: Optional[datetime] = None
