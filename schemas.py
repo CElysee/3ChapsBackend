@@ -46,3 +46,16 @@ class FoodItemCategoryCreate(BaseModel):
     category_status: str
     category_description: Text
     created_at: Optional[datetime] = None
+
+
+class FoodItemCreate(BaseModel):
+    food_item_name: str
+    food_item_description: Optional[Text] = None
+    food_item_price: str
+    food_item_status: Optional[str]
+    food_item_type: Optional[str] = None
+    isFeatured: str
+    food_category_id: List[int] = []
+    food_ingredient_id: List[int] = []
+    food_modifier_id: List[int] = []
+    created_at: Optional[datetime] = None

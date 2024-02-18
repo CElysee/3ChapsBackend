@@ -10,7 +10,7 @@ from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 from starlette import status
 from database import db_dependency, get_db
-from models import FoodItemCategories
+from models import FoodCategories
 from schemas import FoodItemCategoryCreate
 from UploadFile import FileHandler
 
@@ -23,7 +23,7 @@ UPLOAD_FOLDER = "FoodCategory"
 
 
 def category_by_id(category_id, db):
-    category = db.query(FoodItemCategories).filter(FoodItemCategories.id == category_id).first()
+    category = db.query(FoodCategories).filter(FoodCategories.id == category_id).first()
     if not category:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category does not exist")
     return category
@@ -31,7 +31,7 @@ def category_by_id(category_id, db):
 
 @router.get("/all")
 async def get_food_categories(db: db_dependency):
-    food_category = db.query(FoodItemCategories).all()
+    food_category = db.query(FoodCategories).all()
     return food_category
 
 
@@ -49,11 +49,11 @@ async def create_food_category(
     # Use the file_handler to save an uploaded file
     saved_filename = file_handler.save_uploaded_file(category_image)
     # Check if Category exist
-    check_category = db.query(FoodItemCategories).filter(FoodItemCategories.category_name == category_name).first()
+    check_category = db.query(FoodCategories).filter(FoodCategories.category_name == category_name).first()
     if check_category:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Category already exists")
 
-    category = FoodItemCategories(
+    category = FoodCategories(
         category_name=category_name,
         category_status=category_status,
         category_image=saved_filename,

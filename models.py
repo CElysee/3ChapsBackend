@@ -40,8 +40,8 @@ class Country(Base):
     user = relationship("User", back_populates="country")
 
 
-class FoodItemCategories(Base):
-    __tablename__ = "food_item_categories"
+class FoodCategories(Base):
+    __tablename__ = "food_categories"
 
     id = Column(Integer, primary_key=True, index=True)
     category_name = Column(String(50))
@@ -51,7 +51,7 @@ class FoodItemCategories(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    food_items = relationship("FoodItems", back_populates="food_item_categories")
+    food_item_category = relationship("FoodItemCategory", back_populates="food_categories")
 
 
 class FoodIngredients(Base):
@@ -65,7 +65,7 @@ class FoodIngredients(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    food_items = relationship("FoodItems", back_populates="food_ingredients")
+    food_item_ingredient = relationship("FoodItemIngredient", back_populates="food_ingredients")
 
 
 class FoodModifiers(Base):
@@ -79,7 +79,7 @@ class FoodModifiers(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    food_items = relationship("FoodItems", back_populates="food_modifiers")
+    food_item_modifier = relationship("FoodItemModifier", back_populates="food_modifiers")
 
 
 class FoodItems(Base):
@@ -93,12 +93,52 @@ class FoodItems(Base):
     food_item_status = Column(String(50))
     food_item_type = Column(String(50))
     isFeatured = Column(String(50))
-    food_item_category_id = Column(Integer, ForeignKey("food_item_categories.id"))
-    food_item_ingredient_id = Column(Integer, ForeignKey("food_ingredients.id"))
-    food_item_modifier_id = Column(Integer, ForeignKey("food_modifiers.id"))
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    food_item_categories = relationship("FoodItemCategories", back_populates="food_items")
-    food_ingredients = relationship("FoodIngredients", back_populates="food_items")
-    food_modifiers = relationship("FoodModifiers", back_populates="food_items")
+    # Foreign key relationships
+    food_item_category = relationship("FoodItemCategory", back_populates="food_items")
+    food_item_ingredient = relationship("FoodItemIngredient", back_populates="food_items")
+    food_item_modifier = relationship("FoodItemModifier", back_populates="food_items")
+
+
+class FoodItemCategory(Base):
+    __tablename__ = "food_item_category"
+
+    id = Column(Integer, primary_key=True, index=True)
+    food_item_id = Column(Integer, ForeignKey("food_items.id"))
+    food_category_id = Column(Integer, ForeignKey("food_categories.id"))
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+
+    # Foreign key relationships
+    food_items = relationship("FoodItems", back_populates="food_item_category")
+    food_categories = relationship("FoodCategories", back_populates="food_item_category")
+
+
+class FoodItemIngredient(Base):
+    __tablename__ = "food_item_ingredient"
+
+    id = Column(Integer, primary_key=True, index=True)
+    food_item_id = Column(Integer, ForeignKey("food_items.id"))
+    food_ingredient_id = Column(Integer, ForeignKey("food_ingredients.id"))
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+
+    # Foreign key relationships
+    food_items = relationship("FoodItems", back_populates="food_item_ingredient")
+    food_ingredients = relationship("FoodIngredients", back_populates="food_item_ingredient")
+
+
+class FoodItemModifier(Base):
+    __tablename__ = "food_item_modifier"
+
+    id = Column(Integer, primary_key=True, index=True)
+    food_item_id = Column(Integer, ForeignKey("food_items.id"))
+    food_modifier_id = Column(Integer, ForeignKey("food_modifiers.id"))
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+
+    # Foreign key relationships
+    food_items = relationship("FoodItems", back_populates="food_item_modifier")
+    food_modifiers = relationship("FoodModifiers", back_populates="food_item_modifier")
