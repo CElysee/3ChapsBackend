@@ -55,7 +55,20 @@ class FoodItemCreate(BaseModel):
     food_item_status: Optional[str]
     food_item_type: Optional[str] = None
     isFeatured: str
-    food_category_id: List[int] = []
-    food_ingredient_id: List[int] = []
-    food_modifier_id: List[int] = []
+    food_category_id: List[str] = []
+    food_ingredient_id: List[str] = []
+    food_modifier_id: List[str] = []
     created_at: Optional[datetime] = None
+
+
+class FoodItemUpdate(BaseModel):
+    food_item_name: Optional[str] = None
+    food_item_description: Optional[Text] = None
+    food_item_price: Optional[str] = None
+    food_item_status: Optional[str] = None
+    food_item_type: Optional[str] = None
+    isFeatured: Optional[str] = None
+    food_category_id: List[str] = []
+    food_ingredient_id: List[str] = []
+    food_modifier_id: List[str] = []
+    updated_at: Optional[datetime] = None
